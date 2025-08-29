@@ -1,6 +1,6 @@
-# Telegram Smart Bot
+# Telegram Smart Bot - Gemini Edition
 
-בוט טלגרם חכם שמתחבר ל-OpenAI ומאפשר ניהול שיחה בעברית/אנגלית.
+בוט טלגרם חכם שמתחבר ל-Google Gemini ומאפשר שיחה אינטראקטיבית.
 
 ## התקנה והרצה
 1. שכפל את הריפו:
