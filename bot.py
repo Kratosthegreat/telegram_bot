@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 
 # טוען משתני סביבה
 load_dotenv()
@@ -13,25 +13,23 @@ GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
-# פקודת התחלה
+# פקודת start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("היי! אני הבוט החכם שלך עם Gemini 🤖 דבר איתי חופשי...")
 
-# כל הודעה -> נשלחת ל-Gemini
+# שיחה חופשית עם Gemini
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text
-
     try:
         response = model.generate_content(user_text)
         bot_reply = response.text
         await update.message.reply_text(bot_reply)
-
     except Exception as e:
         await update.message.reply_text(f"❌ שגיאה: {e}")
 
 # הפעלת הבוט
 if __name__ == "__main__":
-    app = Application.builder().token(TELEGRAM_TOKEN).build()
+    app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
     print("🚀 הבוט רץ... לחץ Ctrl+C לעצירה")
