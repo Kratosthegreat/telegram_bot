@@ -9,9 +9,8 @@ load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 
+# קונפיגורציה ל-Gemini
 genai.configure(api_key=GEMINI_KEY)
-
-# יוצרים מודל
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # פקודת התחלה
@@ -32,8 +31,9 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # הפעלת הבוט
 if __name__ == "__main__":
-    app = Application.builderם().token(TELEGRAM_TOKEN).build()
+    app = Application.builder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
     print("🚀 הבוט רץ... לחץ Ctrl+C לעצירה")
     app.run_polling()
+
